@@ -38,6 +38,18 @@ function setSize() {
   $("#classDiagram").height(height - 5);
 }
 
+// Matthew testing 
+// function highlightNodesUponSelected() {
+//   var childNodes = []; //Children nodes to be highlighted
+//   var edges = []; //Edge that is selected for Node to be highlighted
+
+//   for (var i = 0; i < entities.length; i++) {
+//     var parentNode = entities[i];
+    
+//   }
+
+//  }
+
 function createDiagram() {
   var nodes = [];
   var edges = [];

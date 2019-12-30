@@ -13,8 +13,84 @@
     <script src="js/colors.js"></script>
     <script src="js/entity.js"></script>
     <script src="js/diagram.js"></script>
+    <script src="js/searchBar.js"></script>
   </head>
   <body onload="bindValues()">
+    <!-- Side Bar tags --->
+
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      <a href="#">About</a>
+      <a href="javascript:void(0)" onclick="testCall()">Print Out Entities</a>
+      <a></a>
+      <!-- Search Bar tags --->
+      <h2 color=white >Search Diagram</h2>
+      <input type="text" id="userInput" onkeyup="searchDiagram()" placeholder="Search...">
+      <ul id="myUL">
+      </ul>
+      <!-- /Search Bar tags --->
+    </div>
+
+    <div id="main">
+      <button class="openbtn" onclick="openNav()">☰ Menu </button>  
+    </div>
+
+    <script>
+      function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+      }
+
+      function testCall() {
+        document.getElementById("myUL").appendChild(listEntities(entities));
+      }
+
+      function listEntities(ents) {
+        var json = {};
+        var list = document.createElement('ul');
+        for (var i = 0; i < ents.length; i++) {
+          var item = document.createElement('li');
+          item.appendChild(document.createTextNode(ents[i]));
+          list.appendChild(item);
+        }
+        return list
+      }
+
+      function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+      }
+
+      function searchDiagram() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("userInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+      }
+
+      function printEntities() {
+        for (var i = 0; i < entities.length; i++) {
+          if ("typeString" in entities[i]) {
+            // console.log(entities[i]);
+            if ("typeString".value == "class") {
+              console.log(entities[i]);
+            }
+          }
+        }
+      }
+    </script>
+    <!-- /Side Bar tags --->
+
     <div id="entities"></div>
     <div id="classDiagram"></div>
     <div class="loading-overlay">
@@ -23,6 +99,7 @@
         <div></div>
       </div>
     </div>
+
     <script id="case" type="x-tmpl-mustache">
       <p class="entity-case case">
           <span class="entity-case-name">.{{name}}</span>
