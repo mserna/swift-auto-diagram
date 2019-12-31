@@ -26,6 +26,10 @@ function networkLabel(entity) {
     return "Undefined";
   }
 
+  if (entity.typeString == "extension") {
+    entity.name = "";
+  }
+
   return (
     "<b>" +
     entity.name +
