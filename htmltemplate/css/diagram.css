@@ -388,6 +388,14 @@ h2 {
   box-sizing: border-box;
 }
 
+li {
+  cursor: pointer;
+}
+
+a {
+  cursor: pointer;
+}
+
 #myInput {
   background-image: url('/css/search-icon.png');
   background-position: 10px 12px;

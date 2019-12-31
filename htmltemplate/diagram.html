@@ -21,7 +21,6 @@
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <a href="#">About</a>
-      <a href="javascript:void(0)" onclick="testCall()">Print Out Entities</a>
       <a></a>
       <!-- Search Bar tags --->
       <h2 color=white >Search Diagram</h2>
@@ -36,29 +35,51 @@
     </div>
 
     <script>
+
+      var global_list = document.createElement('ul');
+
       function openNav() {
         document.getElementById("mySidebar").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
-      }
-
-      function testCall() {
         document.getElementById("myUL").appendChild(listEntities(entities));
       }
 
       function listEntities(ents) {
-        var json = {};
-        var list = document.createElement('ul');
         for (var i = 0; i < ents.length; i++) {
           var item = document.createElement('li');
-          item.appendChild(document.createTextNode(ents[i]));
-          list.appendChild(item);
+          var attr = document.createElement('a');
+          attr.appendChild(document.createTextNode(ents[i].name));
+          // itaem.style.color = "black";
+          // attr.href = getRefForEntity(ents[i]);
+          // attr.onclick = getRefForEntity;
+          attr.onclick = (function() {
+            var currentEntity = ents[i];
+            return function() {
+              getRefForEntity(currentEntity);
+            }
+          })();
+          attr.setPointerCapture = 1;
+          item.appendChild(attr);
+          global_list.append(item);
         }
-        return list
+        return global_list;
+      }
+
+      function getRefForEntity(entity) {
+        console.log("Get reference for entity: " + entity.name);
+        return "#";
       }
 
       function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft= "0";
+        emptyList();
+      }
+
+      function emptyList() {
+        global_list = document.getElementById('myUL');
+        global_list = [];
+        return global_list;
       }
 
       function searchDiagram() {
@@ -68,8 +89,9 @@
         ul = document.getElementById("myUL");
         li = ul.getElementsByTagName("li");
         for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            txtValue = a.textContent || a.innerText;
+            // ent = li[i];
+            ent = li[i].getElementsByTagName("a")[0];
+            txtValue = ent.textContent || ent.innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 li[i].style.display = "";
             } else {
@@ -78,16 +100,6 @@
         }
       }
 
-      function printEntities() {
-        for (var i = 0; i < entities.length; i++) {
-          if ("typeString" in entities[i]) {
-            // console.log(entities[i]);
-            if ("typeString".value == "class") {
-              console.log(entities[i]);
-            }
-          }
-        }
-      }
     </script>
     <!-- /Side Bar tags --->
 
